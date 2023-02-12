@@ -167,15 +167,15 @@ let canPlay = false;
 let canSwitch = false;
 let gamePaused = false;
 let vowelSet = false;
-const opening = new Howl({ src: ['./resources/sounds/opening.mp3', './resources/sounds/opening.wav'], loop: true});
-const backgroundMusic = new Howl({ src: ['./resources/sounds/background-music.mp3'], loop: true});
-const gameOverMusic = new Howl({ src: ['./resources/sounds/game-over.mp3', './resources/sounds/game-over.wav'], loop: true});
-const blockSound = new Howl({ src: ['./resources/sounds/block.mp3', './resources/sounds/block.wav']});
-const blockReverseSound = new Howl({ src: ['./resources/sounds/block-reverse.mp3', './resources/sounds/block-reverse.wav']});
-const whooshSound = new Howl({ src: ['./resources/sounds/whoosh.mp3', './resources/sounds/whoosh.wav']});
-const hitSound = new Howl({ src: ['./resources/sounds/hit.mp3', './resources/sounds/hit.wav']});
-const explosionSound = new Howl({ src: ['./resources/sounds/explosion.mp3', './resources/sounds/explosion.wav']});
-const errorSound = new Howl({ src: ['./resources/sounds/error.mp3', './resources/sounds/error.wav']});
+const opening = new Howl({ src: ['./resources/sounds/opening.webm', './resources/sounds/opening.mp3'], loop: true});
+const backgroundMusic = new Howl({ src: ['./resources/sounds/background-music.webm', './resources/sounds/background-music.mp3'], loop: true});
+const gameOverMusic = new Howl({ src: ['./resources/sounds/game-over.webm', './resources/sounds/game-over.mp3'], loop: true});
+const blockSound = new Howl({ src: ['./resources/sounds/block.webm', './resources/sounds/block.mp3']});
+const blockReverseSound = new Howl({ src: ['./resources/sounds/block-reverse.webm', './resources/sounds/block-reverse.mp3']});
+const whooshSound = new Howl({ src: ['./resources/sounds/whoosh.webm', './resources/sounds/whoosh.mp3']});
+const hitSound = new Howl({ src: ['./resources/sounds/hit.webm', './resources/sounds/hit.mp3']});
+const explosionSound = new Howl({ src: ['./resources/sounds/explosion.webm', './resources/sounds/explosion.mp3']});
+const errorSound = new Howl({ src: ['./resources/sounds/error.webm', './resources/sounds/error.mp3']});
 //Fix for mobile screen height
 // Calculate 1vh value in pixels based on window inner height
 let vh = window.innerHeight * 0.01;
@@ -343,6 +343,7 @@ gameHandler.addEventListener('close', () => {
 // Game buttons
 yesButton.addEventListener('click', () => {
     soundOn = true;
+    Howler.mute(false);
     soundButton.setAttribute('on', true);
     soundPrompt.close();
     setMotion(player, player.images.idle, 200, true, false);
@@ -361,7 +362,6 @@ yesButton.addEventListener('click', () => {
 noButton.addEventListener('click', () => {
     soundOn = false;
     soundButton.setAttribute('on', false);
-    setSounds();
     soundPrompt.close();
     setMotion(player, player.images.idle, 200, true, false);
     gameHandler.showModal();
