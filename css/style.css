@@ -190,14 +190,14 @@ body {
     display: block;
     background-image: url('../resources/images/sound-on.svg');
     background-color: transparent;
-    background-size: min(5vw, calc(.05 * var(--max-win-width)));
+    background-size: min(4.5vw, calc(.045 * var(--max-win-width)));
     background-repeat: no-repeat;
     width: 100%;
     aspect-ratio: 1.5 / 1;
     border: none;
     cursor: pointer;
     margin-left: min(3.5vw, calc(.035 * var(--max-win-width)));
-    padding: 0;
+    padding: 0 min(2vw, calc(.02 * var(--max-win-width))) 0 0;
 }
 
 #sound-button[on="false"] {

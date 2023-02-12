@@ -6,7 +6,7 @@ const rules = [
         image: ''
     },
     {
-        text: "Choose letters from the letter bank to create a word in the empty squares below the letter bank. Click a letter in your word to remove it. The number in the corner of a letter is for the points you'll earn by using it.",
+        text: "Choose letters from the letter bank to create a word in the empty squares below the letter bank. The number in the corner of a letter shows the points you'll earn by using it. Click a letter in your word to remove it.",
         image: './resources/images/letter-bank.PNG'
     },
     {
