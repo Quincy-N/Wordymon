@@ -1,0 +1,613 @@
+@font-face {
+    font-family: 'Pixeloid';
+    src: url('../resources/fonts/PixeloidSans-nR3g1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --max-win-width: 850px;
+}
+
+body {
+    background-color: black;
+    height: calc(var(--vh) * 100);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: center;
+    justify-content: center;
+}
+
+#game-window {
+    background-color: #CFC7DF;
+    position: relative;
+    grid-column: 1 / span 1;
+    display: block;
+    width: 100%;
+    justify-self: center;
+    height: calc(var(--vh) * 100);
+    overflow-x: hidden;
+    margin: auto;
+}
+
+#sound-prompt {
+    width: 60%;
+    max-width: calc(.9 * var(--max-win-width));
+    background-color: rgb(166, 134, 91);
+    border: solid rgb(132, 106, 73) min(.75vw, calc(.0075 * var(--max-win-width)));
+    padding: 0;
+}
+
+#sound-prompt::backdrop {
+    background: hsla(0, 0%, 0%, 1);
+}
+
+#sound-prompt h1 {
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(5vw, calc(.05 * var(--max-win-width)));
+    display: block;
+    text-align: center;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding: 0 min(1vw, calc(.01 * var(--max-win-width)));
+    padding-bottom: min(3vw, calc(.03 * var(--max-win-width)));
+}
+
+#sound-prompt-buttons-container {
+    display: flex;
+    width: 100%;
+    height: 40%;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    padding-bottom: min(3vw, calc(.03 * var(--max-win-width)));
+    justify-content: space-around;
+}
+
+#sound-prompt button {
+    width: min(16vw, calc(.16 * var(--max-win-width)));
+    height: min(6vw, calc(.06 * var(--max-win-width)));
+    border: solid black min(.5vw, calc(.005 * var(--max-win-width)));
+    cursor: pointer;
+    border-radius: 0;
+    justify-self: center;
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(4vw, calc(.04 * var(--max-win-width)));
+    color: black;
+    opacity: 1;
+}
+
+#sound-prompt button:hover {
+    background-color: rgb(166, 134, 91);
+}
+
+#game-handler {
+    box-sizing: border-box;
+    width: 90%;
+    max-width: calc(.95 * var(--max-win-width));
+    max-height: calc(var(--vh) * 100);
+    opacity: .95;
+    background-color: rgb(166, 134, 91);
+    border: solid rgb(132, 106, 73) .4rem;
+    padding: 0;
+}
+
+#game-handler-info-container {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    min-height: 60%;
+    padding: 0 0 min(2vw, calc(.02 * var(--max-win-width))) 0;
+}
+
+#game-heading {
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(11vw, calc(.11 * var(--max-win-width)));
+    display: block;
+    text-align: center;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    opacity: 1;
+    transition: opacity .25s linear;
+}
+
+#game-info {
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: 135%;
+    font-weight: bold;
+    display: none;
+    text-align: left;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding: min(2vw, calc(.02 * var(--max-win-width))) min(2vw, calc(.02 * var(--max-win-width)));
+}
+
+#game-info-graphic {
+    display: none;
+    max-width: min(50vw, calc(.5 * var(--max-win-width)));
+    max-height: min(15vw, calc(.15 * var(--max-win-width)));
+    align-self: center;
+}
+
+#game-handler-buttons-container {
+    display: flex;
+    width: 100%;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    justify-content: space-around;
+    padding: min(2vw, calc(.02 * var(--max-win-width))) 0;
+}
+
+#game-handler button {
+    width: min(16vw, calc(.16 * var(--max-win-width)));
+    height: min(6vw, calc(.06 * var(--max-win-width)));
+    border: solid black min(.5vw, calc(.005 * var(--max-win-width)));
+    color: black;
+    cursor: pointer;
+    border-radius: 0;
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(4vw, calc(.04 * var(--max-win-width)));
+    padding: 0 min(1vw, calc(.01 * var(--max-win-width)));
+    opacity: 1;
+}
+
+#game-handler button:hover {
+    background-color: rgb(166, 134, 91);
+}
+
+#middle-button {
+    display: block;
+}
+
+#right-button {
+    display: none;
+}
+
+#game-buttons-container {
+    display: flex;
+    position: absolute;
+    top: min(2.5vw, calc(.025 * var(--max-win-width)));
+    left: min(2vw, calc(.02 * var(--max-win-width)));
+    height: min(4.5vw, calc(.045 * var(--max-win-width)));
+}
+
+#pause-button {
+    display: block;
+    background-image: url('../resources/images/pause-icon.svg');
+    background-color: transparent;
+    background-size: min(3.5vw, calc(.035 * var(--max-win-width)));
+    background-repeat: no-repeat;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+#pause-button:focus {
+    outline: none;
+}
+
+#sound-button {
+    display: block;
+    background-image: url('../resources/images/sound-on.svg');
+    background-color: transparent;
+    background-size: min(5vw, calc(.05 * var(--max-win-width)));
+    background-repeat: no-repeat;
+    width: 100%;
+    aspect-ratio: 1.5 / 1;
+    border: none;
+    cursor: pointer;
+    margin-left: min(3.5vw, calc(.035 * var(--max-win-width)));
+    padding: 0;
+}
+
+#sound-button[on="false"] {
+    background-image: url('../resources/images/sound-off.svg');
+}
+
+#sound-button:focus {
+    outline: none;
+}
+
+#player {
+    position: absolute;
+    left: min(15vw, calc(.15 * var(--max-win-width)));
+    bottom: min(12vw, calc(.12 * var(--max-win-width)));
+    width: min(8vw, calc(.08 * var(--max-win-width)));
+}
+
+#player-effect {
+    position: absolute;
+    left: min(7vw, calc(.07 * var(--max-win-width)));
+    bottom: min(4vw, calc(.04 * var(--max-win-width)));
+    width: min(25vw, calc(.25 * var(--max-win-width)));
+    visibility: hidden;
+}
+
+#game-score {
+    position: absolute;
+    top: min(2.5vw, calc(.025 * var(--max-win-width)));
+    right: min(3vw, calc(.03 * var(--max-win-width)));
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(3vw, calc(.03 * var(--max-win-width)));
+    color: black;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+#player-healthbar {
+    position: relative;
+    box-sizing: border-box;
+    top: min(7vw, calc(.07 * var(--max-win-width)));
+    left: min(2vw, calc(.02 * var(--max-win-width)));
+    width: 25%;
+    height: min(4vw, calc(.04 * var(--max-win-width)));
+    border: solid black min(.5vw, calc(.005 * var(--max-win-width)));
+}
+
+#player-health-value {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(2, 170, 2);
+    transition: width .1s linear;
+}
+
+#player-healthbar h2 {
+    position: absolute;
+    bottom: min(-4vw, calc(-.04 * var(--max-win-width)));
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(3vw, calc(.03 * var(--max-win-width)));
+    font-weight: bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    color: black;
+}
+
+#opponent-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    position: absolute;
+    right: min(9vw, calc(.09 * var(--max-win-width)));
+    bottom: min(3vw, calc(.03 * var(--max-win-width)));
+    transform: translateX(28vw);
+    align-items: center;
+    justify-items: center;
+    transition: transform 1.5s ease-out;
+}
+
+#opponent {
+    grid-area: 1 / 1 / span 1 / span 1;
+    width: min(12vw, calc(.12 * var(--max-win-width)));
+    aspect-ratio: 1 / 1;
+}
+
+#opponent-effect {
+    grid-area: 1 / 1 / span 1 / span 1;
+    width: min(25vw, calc(.25 * var(--max-win-width)));
+    aspect-ratio: 1 / 1;
+    visibility: hidden;
+}
+
+#opponent-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    position: absolute;
+    top: min(7vw, calc(.07 * var(--max-win-width)));
+    padding-right: min(3vw, calc(.03 * var(--max-win-width)));
+    box-sizing: border-box;
+    width: 100%;
+    height: 20%;
+}
+
+#opponent-healthbar {
+    position: relative;
+    box-sizing: border-box;
+    width: 35%;
+    border: solid black min(.5vw, calc(.005 * var(--max-win-width)));
+    text-align: right;
+    height: min(4vw, calc(.04 * var(--max-win-width)));;
+}
+
+#opponent-health-value {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #02aa02;
+    transition: width .2s linear;
+}
+
+#opponent-name {
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(3vw, calc(.03 * var(--max-win-width)));
+    font-weight: bold;
+    padding: min(1vw, calc(.01 * var(--max-win-width))), 0px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    color: black;
+}
+
+
+#opponent-timebar {
+    position: relative;
+    box-sizing: border-box;
+    width: 35%;
+    height: min(4vw, calc(.04 * var(--max-win-width)));;
+    border: solid black min(.5vw, calc(.005 * var(--max-win-width)));
+}
+
+#opponent-time-value {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(85, 173, 241);
+}
+
+#timer-label {
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(2.5vw, calc(.025 * var(--max-win-width)));
+    font-weight: bold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    color: black;
+}
+
+#background {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+}
+
+#message-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    bottom: min(47vw, calc(.47 * var(--max-win-width)));
+    width: 80%;
+    margin: 5rem 10%;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+}
+
+#message {
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(3vw, calc(.03 * var(--max-win-width)));
+    color: black;
+    background-color: white;
+    padding: 0 min(1vw, calc(.01 * var(--max-win-width)));
+}
+
+#letter-bank {
+    position: absolute;
+    display: flex;
+    flex: stretch;
+    justify-content: space-between;
+    bottom: min(40vw, calc(.4 * var(--max-win-width)));
+    width: 80%;
+    margin: 5rem 10%;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+}
+/*letter blocks */
+#letter-bank div, #word-container div[filled="true"] {
+    display: flex;
+    position: relative;
+    width: min(7vw, calc(.07 * var(--max-win-width)));
+    margin-right: 0;
+    aspect-ratio: 1 / 1;
+    background-color: rgb(166, 134, 91);
+    border: solid rgb(132, 106, 73) min(.5vw, calc(.005 * var(--max-win-width)));
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(5vw, calc(.05 * var(--max-win-width)));
+    justify-content: center;
+    align-content: center;
+    cursor: pointer;
+}
+#letter-bank div:hover {
+    transform: scale(1.1);
+}
+/* letter block numbers */
+#letter-bank span, #word-container div[filled="true"] span {
+    position: absolute;
+    right: .1rem;
+    bottom: 0rem;
+    font-size: min(1.8vw, calc(.018 * var(--max-win-width)));
+}
+
+#letter-bank img, #word-container div[heart="true"] img {
+    position: absolute;
+    left: .1rem;
+    bottom: 0rem;
+    width: min(1.8vw, calc(.018 * var(--max-win-width)));
+    aspect-ratio: 1 / 1;
+}
+
+#word-container {
+    position: absolute;
+    display: flex;
+    flex: stretch;
+    justify-content: space-between;
+    bottom: min(30vw, calc(.3 * var(--max-win-width)));
+    width: 80%;
+    margin: 5rem 10%;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+}
+/* unfilled letter spaces */
+#word-container div {
+    display: flex;
+    width: min(7vw, calc(.07 * var(--max-win-width)));
+    margin-right: 0;
+    aspect-ratio: 1 / 1;
+    border: dashed white min(.5vw, calc(.005 * var(--max-win-width)));
+    transition: transform .35s linear;
+}
+
+#attack-button-container {
+    position:  absolute;
+    bottom: min(20vw, calc(.2 * var(--max-win-width)));
+    width: 20%;
+    margin: 0 40%;
+}
+
+#submit {
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(4vw, calc(.04 * var(--max-win-width)));
+    background-color: rgb(85, 173, 241);
+    color: black;
+    border: solid black min(.5vw, calc(.005 * var(--max-win-width)));
+    width: 100%;
+    padding: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+#submit[active="true"]:hover {
+    border: solid white min(.5vw, calc(.005 * var(--max-win-width)));
+    color: white;
+}
+
+#submit:focus {
+    outline: none;
+}
+
+#word-points-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 14%;
+    height: min(6vw, calc(.06 * var(--max-win-width)));
+    margin: 0 43%;
+    bottom: min(12.5vw, calc(.125 * var(--max-win-width)));
+    background-color: rgb(166, 134, 91);
+    border: solid rgb(132, 106, 73) min(.5vw, calc(.005 * var(--max-win-width)));
+}
+
+#word-points {
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(4vw, calc(.04 * var(--max-win-width)));
+    font-weight: normal;
+    color: black;
+    line-height: min(6vw, calc(.06 * var(--max-win-width)));
+    vertical-align: middle;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+#word-points span {
+    font-size: min(2vw, calc(.02 * var(--max-win-width)));
+}
+
+#switch-button-container {
+    position:  absolute;
+    bottom: min(7vw, calc(.07 * var(--max-win-width)));
+    width: 28%;
+    margin: 0 36%;
+}
+
+#switch-letter {
+    font-family: 'Pixeloid', 'ConnectionIII', 'Franklin Gothic Medium';
+    font-size: min(3vw, calc(.03 * var(--max-win-width)));
+    font-weight: bold;
+    background-color: rgb(72, 199, 99);
+    color: black;
+    border: solid black min(.5vw, calc(.005 * var(--max-win-width)));
+    width: 100%;
+    padding: 0;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+#switch-letter[active="true"]:hover {
+    border: solid white min(.5vw, calc(.005 * var(--max-win-width)));
+    color: white;
+}
+
+#switch-letter:focus {
+    outline: none;
+}
+
+@media (min-width: var(--max-win-width)) {
+    /*#game-window {
+        margin: 0 calc((100% - var(--max-win-width)) / 2);
+    }*/
+}
+
+@media (max-width: 860px) {
+   /* #game-window {
+        min-height: calc((659/900) * 100vw);
+    }*/
+}
+
+@media (max-height: calc((659/900) * 100vw - 1px)) {
+    
+}
+
+@media (max-width: 741px) {
+    /*#game-handler-info-container {
+        height: 85%;
+    }
+
+    #game-info {
+        font-size: 120%;
+    }
+
+    #game-info-graphic {
+        max-height: min(20vw, calc(.2 * var(--max-win-width)));
+    }
+
+    #game-handler-buttons-container {
+        height: 15%;
+    }
+
+    #game-handler button {
+        font-size: min(3.8vw, calc(.038 * var(--max-win-width)));
+    }*/
+}
+
+@media (max-width: 616px) and (min-height: calc(1.11 * 100vw)) {
+    /*#game-window {
+        max-height: calc(1.11 * 100vw);
+        margin: calc((100vh - (1.11 * 100vw)) / 2) 0;
+    }*/
+}
+
+@media (max-width: 510px) {
+    #game-handler {
+        box-sizing: border-box;
+        min-height: calc((110/510) * 100vw);
+    }
+
+    #game-info {
+        font-size: min(3.2vw, calc(.032 * var(--max-win-width)));
+    }
+
+    #game-info-graphic {
+        max-width: min(80vw, calc(.8 * var(--max-win-width)));
+        max-height: min(22vw, calc(.22 * var(--max-win-width)));
+    }
+
+    #game-handler button {
+        width: min(18vw, calc(.18 * var(--max-win-width)));
+        height: min(8vw, calc(.08 * var(--max-win-width)));
+        font-size: min(4vw, calc(.04 * var(--max-win-width)));
+        align-self: center;
+    }
+}
