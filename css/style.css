@@ -79,10 +79,6 @@ body {
     opacity: 1;
 }
 
-#sound-prompt button:hover {
-    background-color: rgb(166, 134, 91);
-}
-
 #game-handler {
     box-sizing: border-box;
     width: 90%;
@@ -155,10 +151,6 @@ body {
     font-size: min(4vw, calc(.04 * var(--max-win-width)));
     padding: 0 min(1vw, calc(.01 * var(--max-win-width)));
     opacity: 1;
-}
-
-#game-handler button:hover {
-    background-color: rgb(166, 134, 91);
 }
 
 #middle-button {
@@ -339,7 +331,6 @@ body {
     color: black;
 }
 
-
 #opponent-timebar {
     position: relative;
     box-sizing: border-box;
@@ -419,9 +410,7 @@ body {
     align-content: center;
     cursor: pointer;
 }
-#letter-bank div:hover {
-    transform: scale(1.1);
-}
+
 /* letter block numbers */
 #letter-bank span, #word-container div[filled="true"] span {
     position: absolute;
@@ -479,11 +468,6 @@ body {
     box-sizing: border-box;
 }
 
-#submit[active="true"]:hover {
-    border: solid white min(.5vw, calc(.005 * var(--max-win-width)));
-    color: white;
-}
-
 #submit:focus {
     outline: none;
 }
@@ -535,13 +519,32 @@ body {
     box-sizing: border-box;
 }
 
-#switch-letter[active="true"]:hover {
-    border: solid white min(.5vw, calc(.005 * var(--max-win-width)));
-    color: white;
-}
-
 #switch-letter:focus {
     outline: none;
+}
+
+@media (hover: hover) {
+    #switch-letter[active="true"]:hover {
+        border: solid white min(.5vw, calc(.005 * var(--max-win-width)));
+        color: white;
+    }
+    
+    #submit[active="true"]:hover {
+        border: solid white min(.5vw, calc(.005 * var(--max-win-width)));
+        color: white;
+    }
+
+    #letter-bank div:hover {
+        transform: scale(1.1);
+    }
+
+    #game-handler button:hover {
+        background-color: rgb(166, 134, 91);
+    }
+    
+    #sound-prompt button:hover {
+        background-color: rgb(166, 134, 91);
+    }
 }
 
 @media (max-width: 510px) {
