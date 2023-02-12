@@ -2,7 +2,7 @@ import { opponents } from "./opponents.js";
 
 const rules = [
     {
-        text: 'You can play by clicking or using the keyboard controls below.<br>Alphabet keys: choose letter<br>Enter: attack with word<br>Space: switch letter<br>Backspace/Delete: remove last letter added to your word<br>Period: pause game',
+        text: 'You can play by clicking or using the keyboard controls below.<br>Alphabet keys: choose letter<br>Enter: attack with word<br>Space: switch letter<br>Backspace/Delete: remove last letter<br>Period: pause game',
         image: ''
     },
     {
@@ -167,15 +167,40 @@ let canPlay = false;
 let canSwitch = false;
 let gamePaused = false;
 let vowelSet = false;
-const opening = new Howl({ src: ['./resources/sounds/opening.webm', './resources/sounds/opening.mp3'], loop: true});
-const backgroundMusic = new Howl({ src: ['./resources/sounds/background-music.webm', './resources/sounds/background-music.mp3'], loop: true});
-const gameOverMusic = new Howl({ src: ['./resources/sounds/game-over.webm', './resources/sounds/game-over.mp3'], loop: true});
-const blockSound = new Howl({ src: ['./resources/sounds/block.webm', './resources/sounds/block.mp3']});
-const blockReverseSound = new Howl({ src: ['./resources/sounds/block-reverse.webm', './resources/sounds/block-reverse.mp3']});
-const whooshSound = new Howl({ src: ['./resources/sounds/whoosh.webm', './resources/sounds/whoosh.mp3']});
-const hitSound = new Howl({ src: ['./resources/sounds/hit.webm', './resources/sounds/hit.mp3']});
-const explosionSound = new Howl({ src: ['./resources/sounds/explosion.webm', './resources/sounds/explosion.mp3']});
-const errorSound = new Howl({ src: ['./resources/sounds/error.webm', './resources/sounds/error.mp3']});
+const opening = new Howl({
+    src: ['./resources/sounds/opening.webm', './resources/sounds/opening.mp3'],
+    loop: true,
+});
+const backgroundMusic = new Howl({
+    src: ['./resources/sounds/background-music.webm', './resources/sounds/background-music.mp3'],
+    loop: true,
+});
+const gameOverMusic = new Howl({
+    src: ['./resources/sounds/game-over.webm', './resources/sounds/game-over.mp3'],
+    loop: true,
+});
+const blockSound = new Howl({
+    src: ['./resources/sounds/block.webm', './resources/sounds/block.mp3'],
+    html5: true
+});
+const blockReverseSound = new Howl({
+    src: ['./resources/sounds/block-reverse.webm', './resources/sounds/block-reverse.mp3'],
+    html5: true
+});
+const whooshSound = new Howl({
+    src: ['./resources/sounds/whoosh.webm', './resources/sounds/whoosh.mp3'],
+    html5: true
+});
+const hitSound = new Howl({
+    src: ['./resources/sounds/hit.webm', './resources/sounds/hit.mp3'],
+});
+const explosionSound = new Howl({
+    src: ['./resources/sounds/explosion.webm', './resources/sounds/explosion.mp3'],
+    html5: true
+});
+const errorSound = new Howl({
+    src: ['./resources/sounds/error.webm', './resources/sounds/error.mp3'],
+});
 //Fix for mobile screen height
 // Calculate 1vh value in pixels based on window inner height
 let vh = window.innerHeight * 0.01;
@@ -186,10 +211,8 @@ function calculateVh() {
     var vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', vh + 'px');
 }
-  
 // Initial calculation
 calculateVh();
-  
 // Re-calculate on device orientation change
 window.addEventListener('orientationchange', () => {
     calculateVh();
@@ -220,15 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
-let mediaQueryInfo = window.matchMedia("(max-height: calc((659/850) * 100vw - 1px))");
-    // check if media query condition is met
-    /*if (mediaQueryInfo.matches) {
-        let scaleAmount = window.innerHeight / gameWindow.getBoundingClientRect().height;
-        gameWindow.style.zoom = scaleAmount;
-        let windowWidth = window.innerHeight * (900/659) / scaleAmount; //900 is from maximum width. 659 is a favorable height at 900px width.
-        gameWindow.style.width = `${windowWidth}px`;
-    }*/
-// Handle when user leaves page while playing
+// Handle when user is not on site, but site is running
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === 'visible') {
     } else if (canPlay === true) {
@@ -304,6 +319,7 @@ gameHandler.addEventListener('close', () => {
         gamePaused = false;
     } else {
         opening.stop();
+        gameOverMusic.stop();
         backgroundMusic.play();
         resetLetters();
         if (gameNumber > 0) {
@@ -349,7 +365,9 @@ yesButton.addEventListener('click', () => {
     setMotion(player, player.images.idle, 200, true, false);
     gameHandler.showModal();
     blockSound.play();
-    opening.play();
+    setTimeout(() => {
+        opening.play();
+    }, 200);
     titleEffect = setInterval(() => {
         if (gameHeading.style.opacity == 0) {
             gameHeading.style.opacity = 1;
@@ -401,7 +419,11 @@ middleButton.addEventListener('click', () => {
             middleButton.innerHTML = 'Rules';
             rightButton.style.display = 'none';
             if (gameHeading.innerHTML === 'Game Over') {
-                gameInfo.innerHTML = `Nice work! You defeated ${opponentsDefeated} monsters and earned ${totalPoints} points!`;
+                if (opponentsDefeated === 1) {
+                    gameInfo.innerHTML = `Nice work! You defeated ${opponentsDefeated} monster and earned ${totalPoints} points!`;
+                } else {
+                    gameInfo.innerHTML = `Nice work! You defeated ${opponentsDefeated} monsters and earned ${totalPoints} points!`;
+                }
             } else {
                 gameInfo.style.display = 'none';
             }
@@ -887,7 +909,11 @@ function playerDamage() {
         opponentContainer.removeAttribute('style');
         clearInterval(opponent.motionInterval);
         gameHeading.innerHTML = 'Game Over';
-        gameInfo.innerHTML = `Nice work! You defeated ${opponentsDefeated} monsters and earned ${totalPoints} points!`;
+        if (opponentsDefeated === 1) {
+            gameInfo.innerHTML = `Nice work! You defeated ${opponentsDefeated} monster and earned ${totalPoints} points!`;
+        } else {
+            gameInfo.innerHTML = `Nice work! You defeated ${opponentsDefeated} monsters and earned ${totalPoints} points!`;
+        }
         gameHeading.style.paddingBottom = '0px';
         gameHeading.style.opacity = 1;
         gameInfo.style.textAlign = 'center';
