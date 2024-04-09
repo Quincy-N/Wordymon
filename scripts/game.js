@@ -479,6 +479,7 @@ rightButton.addEventListener('click', () => {
         case 1:
             gameInfo.innerHTML = rules[1].text;
             gameInfoGraphic.setAttribute('src', rules[1].image);
+            gameInfoGraphic.removeAttribute('style');
             gameInfoGraphic.style.display = 'block';
             rulesPage = 2;
             break;
